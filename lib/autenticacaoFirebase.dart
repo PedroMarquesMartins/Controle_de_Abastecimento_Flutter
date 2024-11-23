@@ -18,6 +18,10 @@ class AutenticacaoFirebase {
     }
   }
 
+  Future<void> enviarEmailRecuperacaoSenha(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   Future<String> signIn(String email, String password) async {
     final response = await http.post(
       Uri.parse('https://sua-api.com/login'),

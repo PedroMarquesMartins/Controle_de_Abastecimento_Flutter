@@ -41,10 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    // Chama o método de login e recebe a mensagem de resultado
     String message = await auth.signInWithEmailPassword(email, password);
 
-    // Exibe um Snackbar com a mensagem de resultado
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
@@ -55,10 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
     final email = _emailController.text;
     final password = _passwordController.text;
 
-    // Chama o método de registro e recebe a mensagem de resultado
     String message = await auth.registerWithEmailPassword(email, password);
 
-    // Exibe um Snackbar com a mensagem de resultado
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
@@ -74,11 +70,34 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  void _recuperarSenha() async {
+    final email = _emailController.text;
+
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Insira seu email para recuperar a senha.")),
+      );
+      return;
+    }
+
+    try {
+      await auth.enviarEmailRecuperacaoSenha(email);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Email de recuperação enviado para $email.")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Erro ao enviar email de recuperação: ${e.toString()}")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -111,6 +130,12 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: _register,
               child: const Text('Registrar'),
+            ),
+            ElevatedButton(
+              onPressed: _recuperarSenha,
+              child: const Text('Esqueceu a senha?'),
+              style: ElevatedButton.styleFrom(
+              ),
             ),
           ],
         ),
