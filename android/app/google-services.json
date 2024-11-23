@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "178807260404",
+    "project_id": "p2-projeto-59cd5",
+    "storage_bucket": "p2-projeto-59cd5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178807260404:android:be4cdc44c1052c6adfcaa1",
+        "android_client_info": {
+          "package_name": "br.unigran.p2_projeto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178807260404-u44v49jv6n160e56ulsh8t0tom8o4hcs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhiiuTIK6OUQ-T__PD7OrgcawyLcUUQEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178807260404-u44v49jv6n160e56ulsh8t0tom8o4hcs.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "178807260404-svkpnu3ddvcd87vujh3udjno6dt8lqt4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "br.unigran.p2Projeto"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
