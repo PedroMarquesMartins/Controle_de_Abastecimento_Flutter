@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:p2_projeto/telaInicio.dart';
+import 'package:p2_projeto/Controllers/telaInicio.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {

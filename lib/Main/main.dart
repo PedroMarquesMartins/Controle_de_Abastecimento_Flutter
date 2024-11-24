@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
-import 'daoFirestore.dart';
-import 'firebase_options.dart';
-import 'login.dart';
+import '../Model/Firebase/daoFirestore.dart';
+import '../Model/Firebase/firebase_options.dart';
+import '../Controllers/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

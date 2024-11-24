@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:p2_projeto/telaInicio.dart';
+import 'package:p2_projeto/Controllers/telaInicio.dart';
 
-
-import 'autenticacaoFirebase.dart';
+import '../Model/Firebase/autenticacaoFirebase.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -54,7 +53,6 @@ class _LoginScreenState extends State<LoginScreen> {
     final password = _passwordController.text;
 
     String message = await auth.registerWithEmailPassword(email, password);
-
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message)),
     );
@@ -63,9 +61,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void _validaLogin() async {
     if (await auth.isUserLoggedIn()) {
+      final user = await auth.getCurrentUser();
+      final email = user?.email ?? "Usuário não cadastrado";
+
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MyApp()),
+        MaterialPageRoute(
+          builder: (context) => MyApp(userEmail: email),
+        ),
       );
     }
   }
@@ -87,7 +90,9 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Erro ao enviar email de recuperação: ${e.toString()}")),
+        SnackBar(
+            content:
+                Text("Erro ao enviar email de recuperação: ${e.toString()}")),
       );
     }
   }
@@ -134,8 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ElevatedButton(
               onPressed: _recuperarSenha,
               child: const Text('Esqueceu a senha?'),
-              style: ElevatedButton.styleFrom(
-              ),
+              style: ElevatedButton.styleFrom(),
             ),
           ],
         ),

@@ -32,7 +32,6 @@ class AutenticacaoFirebase {
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
       String token = data['token'];
-      // Salve o token em um armazenamento seguro
       return "Autenticação bem-sucedida, token: $token";
     } else {
       return "Erro de autenticação";
@@ -59,9 +58,9 @@ class AutenticacaoFirebase {
 
   Future<bool> isUserLoggedIn() async {
     User? user = FirebaseAuth.instance.currentUser;
-  //  return false;
-
-    return user !=
-        null; // Retorna true se o usuário estiver logado, caso contrário, false
+    return user != null;
+  }
+  User? getCurrentUser() {
+    return FirebaseAuth.instance.currentUser;
   }
 }
