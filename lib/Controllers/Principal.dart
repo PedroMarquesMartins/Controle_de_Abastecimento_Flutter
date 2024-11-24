@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import '../Model/Firebase/autenticacaoFirebase.dart';
 import 'CadastroVeiculos.dart';
 import 'ListagemState.dart';
+import 'login.dart';
 
 class Principal extends StatefulWidget {
   final String userEmail;
@@ -11,6 +13,8 @@ class Principal extends StatefulWidget {
   _PrincipalState createState() => _PrincipalState();
 }
 class _PrincipalState extends State<Principal> {
+  final AutenticacaoFirebase _auth = AutenticacaoFirebase(); // Instância de AutenticacaoFirebase
+
   @override
   Widget build(BuildContext context) {
     print('Usuário logado: ${widget.userEmail}');
@@ -68,11 +72,12 @@ class _PrincipalState extends State<Principal> {
                 Navigator.pop(context);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.logout),
+            ListTile(leading: const Icon(Icons.logout),
               title: const Text('Logout'),
-              onTap: () {
-                Navigator.pop(context);
+              onTap: () async { await _auth.logout();
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => Login()),);
               },
             ),
           ],

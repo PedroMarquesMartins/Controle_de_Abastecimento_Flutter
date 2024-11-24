@@ -63,4 +63,12 @@ class AutenticacaoFirebase {
   User? getCurrentUser() {
     return FirebaseAuth.instance.currentUser;
   }
+
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+    } catch (e) {
+      print('Erro ao fazer logout: $e');
+    }
+  }
 }
