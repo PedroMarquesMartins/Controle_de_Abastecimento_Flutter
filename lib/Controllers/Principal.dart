@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../Model/Firebase/autenticacaoFirebase.dart';
 import 'CadastroVeiculos.dart';
 import 'ListagemState.dart';
+import 'PerfilState.dart';
 import 'login.dart';
 
 class Principal extends StatefulWidget {
@@ -69,7 +70,12 @@ class _PrincipalState extends State<Principal> {
               leading: const Icon(Icons.person),
               title: const Text('Perfil'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Perfil(emailUsuario: widget.userEmail),
+                  ),
+                );
               },
             ),
             ListTile(leading: const Icon(Icons.logout),
