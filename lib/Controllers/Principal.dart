@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'CadastroVeiculos.dart';
+import 'ListagemState.dart';
 
 class Principal extends StatefulWidget {
   final String userEmail;
@@ -10,17 +10,7 @@ class Principal extends StatefulWidget {
   @override
   _PrincipalState createState() => _PrincipalState();
 }
-
 class _PrincipalState extends State<Principal> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
-  Stream<QuerySnapshot> _obterVeiculos() {
-    return _firestore
-        .collection('veiculos')
-        .where('emailUsuario', isEqualTo: widget.userEmail)
-        .snapshots();
-  }
-
   @override
   Widget build(BuildContext context) {
     print('Usuário logado: ${widget.userEmail}');
@@ -38,7 +28,7 @@ class _PrincipalState extends State<Principal> {
           padding: EdgeInsets.zero,
           children: [
             const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
+              decoration: BoxDecoration(color: Colors.black),
               child: Text(
                 'Menu',
                 style: TextStyle(color: Colors.white, fontSize: 24),
@@ -47,13 +37,6 @@ class _PrincipalState extends State<Principal> {
             ListTile(
               leading: const Icon(Icons.home),
               title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.directions_car),
-              title: const Text('Meus Veículos'),
               onTap: () {
                 Navigator.pop(context);
               },
@@ -68,7 +51,7 @@ class _PrincipalState extends State<Principal> {
                     builder: (context) =>
                         CadastroVeiculo(emailUsuario: widget.userEmail),
                   ),
-                ).then((_) => setState(() {})); // Atualiza a tela após cadastro
+                ).then((_) => setState(() {}));
               },
             ),
             ListTile(
@@ -119,40 +102,7 @@ class _PrincipalState extends State<Principal> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream: _obterVeiculos(),
-                builder: (context, snapshot){
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-
-                  if (!snapshot.hasData ||snapshot.data!.docs.isEmpty) {
-                    return const Center(child: Text('Nenhum veículo cadastrado.'));
-                  }
-
-                  final veiculos = snapshot.data!.docs;
-
-                  return ListView.builder(
-                    itemCount: veiculos.length,
-                    itemBuilder: (context, index) {
-                      final veiculo=
-                      veiculos[index].data()as Map<String,dynamic>;
-
-                      return ListTile(
-                        title: Text(veiculo['nome'] ?? 'Sem Nome'),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Modelo: ${veiculo['modelo']??'Desconhecido'}'),
-                            Text('Ano:${veiculo['ano'] ??'Desconhecido'}'),
-                            Text('Placa:${veiculo['placa']?? 'Desconhecida'}'),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: ListagemState(emailUsuario: widget.userEmail),
             ),
           ],
         ),
