@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import '../Model/Firebase/autenticacaoFirebase.dart';
 import 'CadastroVeiculos.dart';
 import 'ListagemState.dart';
+import 'ListagemAbastecimentoState.dart';
 import 'PerfilState.dart';
 import 'login.dart';
 
 class Principal extends StatefulWidget {
   final String userEmail;
-
   const Principal({super.key, required this.userEmail});
-
   @override
   _PrincipalState createState() => _PrincipalState();
 }
-class _PrincipalState extends State<Principal> {
-  final AutenticacaoFirebase _auth = AutenticacaoFirebase(); // Instância de AutenticacaoFirebase
 
+class _PrincipalState extends State<Principal> {
+  final AutenticacaoFirebase _auth = AutenticacaoFirebase();
   @override
   Widget build(BuildContext context) {
     print('Usuário logado: ${widget.userEmail}');
@@ -63,7 +62,12 @@ class _PrincipalState extends State<Principal> {
               leading: const Icon(Icons.history),
               title: const Text('Histórico de Abastecimentos'),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ListaAbastecimentosState(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -78,12 +82,15 @@ class _PrincipalState extends State<Principal> {
                 );
               },
             ),
-            ListTile(leading: const Icon(Icons.logout),
+            ListTile(
+              leading: const Icon(Icons.logout),
               title: const Text('Logout'),
-              onTap: () async { await _auth.logout();
-              Navigator.pushReplacement(
+              onTap: () async {
+                await _auth.logout();
+                Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => Login()),);
+                  MaterialPageRoute(builder: (context) => Login()),
+                );
               },
             ),
           ],
@@ -92,7 +99,17 @@ class _PrincipalState extends State<Principal> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Usuário: ${widget.userEmail}',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 Navigator.push(

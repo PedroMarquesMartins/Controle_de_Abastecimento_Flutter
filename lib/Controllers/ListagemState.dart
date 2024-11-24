@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'DetalhesState.dart';
 import 'EditarState.dart';
 
 class ListagemState extends StatefulWidget {
@@ -21,8 +22,7 @@ class _ListagemState extends State<ListagemState> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class _ListagemState extends State<ListagemState> {
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: _obterVeiculos(),
-              builder: (context, snapshot){
+              builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
@@ -47,38 +47,57 @@ class _ListagemState extends State<ListagemState> {
                 return ListView.builder(
                   itemCount: veiculos.length,
                   itemBuilder: (context, index) {
-                    final veiculo = veiculos[index].data() as Map<String, dynamic>;
-                    final docId = veiculos[index].id;
-
+                    final veiculo =
+                    veiculos[index].data() as Map<String, dynamic>;
                     return ListTile(
-                      title: Text(veiculo['nome']??'Sem Nome'),
+                      title: Text(veiculo['nome'] ?? 'Sem Nome'),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Modelo: ${veiculo['modelo'] ?? 'Desconhecido'}'),
+                          Text(
+                              'Modelo: ${veiculo['modelo'] ?? 'Desconhecido'}'),
                           Text('Ano: ${veiculo['ano'] ?? 'Desconhecido'}'),
                           Text('Placa: ${veiculo['placa'] ?? 'Desconhecida'}'),
                         ],
                       ),
-                      trailing: ElevatedButton(
-                        onPressed: () async {
-                          bool? resultado = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => EditarState(
-                                emailUsuario: widget.emailUsuario,
-                                nome: veiculo['nome'] ?? '',
-                                placa: veiculo['placa'] ?? '',
-                                modelo: veiculo['modelo'] ?? '',
-                                ano: veiculo['ano'] ?? '',
-                              ),
-                            ),
-                          );
-                          if (resultado == true) {
-                            setState(() {});
-                          }
-                        },
-                        child: const Text('Editar'),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () async {
+                              bool? resultado = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditarState(
+                                    emailUsuario: widget.emailUsuario,
+                                    nome: veiculo['nome'] ?? '',
+                                    placa: veiculo['placa'] ?? '',
+                                    modelo: veiculo['modelo'] ?? '',
+                                    ano: veiculo['ano'] ?? '',
+                                  ),
+                                ),
+                              );
+                              if (resultado == true) {
+                                setState(() {});
+                              }
+                            },
+                            child: const Text('Editar'),
+                          ),
+                          const SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => DetalhesState(
+                                    placa: veiculo['placa'] ?? '',
+                                  ),
+                                ),
+                              );
+                            },
+                            child: const Text('Ver Detalhes'),
+                          ),
+                        ],
                       ),
                     );
                   },

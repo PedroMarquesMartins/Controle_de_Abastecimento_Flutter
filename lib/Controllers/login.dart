@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content:
-                Text("Erro ao enviar email de recuperação: ${e.toString()}")),
+            Text("Erro ao enviar email de recuperação: ${e.toString()}")),
       );
     }
   }
@@ -100,48 +100,55 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const SizedBox(height: 50),
+              const Text(
+                'Bem-vindo!',
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold,
+                ),
               ),
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Senha',
-                border: OutlineInputBorder(),
+              const SizedBox(height: 10),
+              const Text('Faça login para continuar', style: TextStyle(fontSize: 16, color: Colors.grey,
+                ),
               ),
-              obscureText: true,
-            ),
-            const SizedBox(height: 24),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Entrar'),
-            ),
-            const SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: _register,
-              child: const Text('Registrar'),
-            ),
-            ElevatedButton(
-              onPressed: _recuperarSenha,
-              child: const Text('Esqueceu a senha?'),
-              style: ElevatedButton.styleFrom(),
-            ),
-          ],
+              const SizedBox(height: 30),
+              TextField(controller: _emailController, decoration: const InputDecoration(
+                  labelText: 'Email',
+                  border: OutlineInputBorder(),
+                  prefixIcon: Icon(Icons.email),),
+                keyboardType: TextInputType.emailAddress,
+              ),
+              const SizedBox(height: 16),
+              TextField(controller: _passwordController, decoration: const InputDecoration(
+                  labelText: 'Senha',
+                  border: OutlineInputBorder(), prefixIcon: Icon(Icons.lock),
+                ),
+                obscureText: true,
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(onPressed: _login, style: ElevatedButton.styleFrom(minimumSize: const Size(double.infinity, 50), //??????????? wtf
+                ),
+                child: const Text('Entrar'),
+              ),
+              const SizedBox(height: 8),
+              ElevatedButton(onPressed: _register, style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: Colors.green,
+                ),
+                child: const Text('Registrar'),
+              ),
+              const SizedBox(height: 8),
+              TextButton(
+                onPressed: _recuperarSenha,
+                child: const Text('Esqueceu a senha?'),
+              ),
+            ],
+          ),
         ),
       ),
     );
